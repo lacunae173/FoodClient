@@ -3,25 +3,21 @@ import Dish from "./Dish";
 
 
 function Menu(props) {
-    const [menu, setMenu] = useState([]);
-
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/menu.json')
-            .then(response => response.json())
-            .then(data => {
-                setMenu(data)
-            });
-    }, [])
+    
 
     return (
-        <div className="grid grid-rows-6 gap-2">
-            {menu.map(dish => {
-                console.log(dish);
-                return (
-                    <Dish key={dish.id} dish={dish} className="row-span-1"/>
-                )
-            })}
+        <div>
+            <div className="flex flex-col space-y-2 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-5">
+                {props.menu.map(dish => {
+                    console.log(dish);
+                    return (
+                        <Dish key={dish.id} dish={dish} className="flex-1 md:col-span-1" />
+
+                    )
+                })}
+            </div>
         </div>
+        
     )
 }
 

@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    @variants responsive {
+        .cart-md {
+            @apply block col-span-1 shadow-md rounded-lg h-75p overflow-auto
+        }
+    }
+}

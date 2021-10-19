@@ -1,7 +1,10 @@
 function Dish(props) {
     return (
         <div className="grid grid-cols-3">
-            <img className="col-span-1 shadow-md rounded-lg h-full object-cover" src={props.dish.image} alt={props.dish.name} />
+            <div className=" h-24 w-full max-w-24 col-span-1" >
+                <img className=" shadow-md rounded-lg h-full object-cover" src={props.dish.image} alt={props.dish.name} />
+            </div>
+            
             <div className="col-span-2 flex flex-col justify-between p-2">
                 <h3>{props.dish.name}</h3>
                 <div className="flex justify-between">

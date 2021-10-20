@@ -4,8 +4,28 @@
 
 @layer components {
     @variants responsive {
-        .cart-md {
-            @apply block col-span-1 shadow-md rounded-lg h-75p overflow-auto
+        .card {
+          @apply shadow-md rounded-lg overflow-auto no-scrollbar bg-yellow-50
+        }
+        .card-title {
+          @apply p-3 text-lg bg-yellow-100
+        }
+        .card-body {
+          @apply p-3
         }
     }
+}
+
+@layer utilities {
+  @variants responsive {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+  }
 }

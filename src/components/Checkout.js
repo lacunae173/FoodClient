@@ -1,10 +1,32 @@
+import { useSelector } from "react-redux";
 import Cart from "./Cart";
 import CartBar from "./CartBar";
+import CartItem from "./CartItem";
 
 function Checkout(props) {
+    const OrderedDish = (props) => {
+        return (
+            <div className="flex justify-between">
+                <div>{`${props.dish.name} * ${props.number}`}</div>
+                <div>{`$${props.dish.price * props.number}`}</div>
+            </div>
+            
+        )
+    }
+    const cart = useSelector(state => state.cart)
+    const renderedDishList = cart.map(({ dishId, number }) => {
+        const dish = props.dishes.find((dish) => dish.id === dishId);
+        return dish && <OrderedDish key={dish.id} dish={dish} number={number} />
+    })
+
     return (
         <div className="flex flex-col space-y-3">
-            <Cart dishes={props.dishes} fullsize />
+            {/* <Cart dishes={props.dishes} fullsize /> */}
+            <div className="card">
+                <div className="card-body flex flex-col space-y-2">
+                    {renderedDishList}
+                </div>
+            </div>
             <div className="card">
                 <div className="card-title">Contact</div>
                 <div className="card-body flex flex-col space-y-2">

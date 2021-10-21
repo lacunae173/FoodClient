@@ -14,6 +14,10 @@ function Main(props) {
             .then(response => response.json())
             .then(data => {
                 setMenu(data)
+            })
+            .catch((error) => {
+                console.log(error);
+                alert("Fail to fetch")
             });
     }, [])
 
@@ -34,7 +38,7 @@ function Main(props) {
                     <Checkout dishes={menu} />
                 </div>
             </div>
-            {/* <div className="menupage">
+            <div className="menupage">
                 <div className="px-3 pt-16 pb-20 md:grid md:grid-cols-3">
                     <div className="p-2 md:col-span-2">
                         <Menu menu={menu} />
@@ -49,14 +53,14 @@ function Main(props) {
                 <div className="md:hidden flex flex-col justify-center">
                     <div className={`fixed h-full w-full top-0 left-0  transition-all duration-300 ${showCart ? "bg-opacity-50 bg-black" : "bg-transparent"
                         } `}></div>
-                    <div className={`m-4 fixed top-12 w-90p self-center transition-all duration-300 transform ${showCart ? "opacity-100 " : "opacity-0 translate-y-96"
+                    <div className={`m-4 fixed bottom-16 w-90p self-center transition-all duration-300 transform ${showCart ? "opacity-100 " : "opacity-0 translate-y-96"
                         }`}>
                         <Cart dishes={menu} show={showCart} />
                     </div>
                     <CartBar onToggleCart={toggleCart} />
 
                 </div>
-            </div> */}
+            </div>
             
         </div>
     )

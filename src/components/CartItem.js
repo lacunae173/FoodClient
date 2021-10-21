@@ -12,7 +12,7 @@ function CartItem(props) {
                     <div className="flex justify-between">
                         <div className="flex space-x-1">
                             <button className="bg-yellow-200 rounded-full w-6 h-6 font-bold">-</button>
-                            <span>1</span>
+                            <span>{props.number}</span>
                             <button className="bg-yellow-200 rounded-full w-6 h-6 font-bold">+</button>
                         </div>
 

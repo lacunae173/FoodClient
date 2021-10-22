@@ -19,9 +19,20 @@ export const cartSlice = createSlice({
                     number: 1
                 })
             }
+        },
+        dishDeleted: (state, action) => {
+            const dishIdx = state.findIndex((dish) => dish.dishId === action.payload)
+            if (state[dishIdx].number > 1) {
+                state[dishIdx] = {
+                    ...state[dishIdx],
+                    number: state[dishIdx].number - 1
+                }
+            } else {
+                state.splice(dishIdx, 1)
+            }
         }
     }
 })
 
-export const { dishAdded } = cartSlice.actions
+export const { dishAdded, dishDeleted } = cartSlice.actions
 export default cartSlice.reducer

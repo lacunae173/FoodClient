@@ -1,4 +1,22 @@
+import { useDispatch } from "react-redux";
+import { dishAdded, dishDeleted } from "../redux/cartSlice";
+
 function CartItem(props) {
+    const dispatch = useDispatch()
+
+    const onAddButtonClicked = (event) => {
+        console.log("add" + props.dish.name);
+        dispatch(
+            dishAdded(props.dish.id)
+        )
+    }
+
+    const onDeleteButtonClicked = () => {
+        dispatch(
+            dishDeleted(props.dish.id)
+        )
+    }
+
     return (
         <div className="flex justify-between items-center">
             {/* pic name number */}
@@ -11,9 +29,9 @@ function CartItem(props) {
                     <h3>{props.dish.name}</h3>
                     <div className="flex justify-between">
                         <div className="flex space-x-1">
-                            <button className="bg-yellow-200 rounded-full w-6 h-6 font-bold">-</button>
+                            <button onClick={onDeleteButtonClicked} className="bg-yellow-200 rounded-full w-6 h-6 font-bold">-</button>
                             <span>{props.number}</span>
-                            <button className="bg-yellow-200 rounded-full w-6 h-6 font-bold">+</button>
+                            <button onClick={onAddButtonClicked} className="bg-yellow-200 rounded-full w-6 h-6 font-bold">+</button>
                         </div>
 
                     </div>
@@ -21,7 +39,7 @@ function CartItem(props) {
             </div>
             
             <div className="align-bottom">
-                <span className="font-semibold text-sm">$10.99</span>
+                <span className="font-semibold text-sm">{`$${props.dish.price * props.number}`}</span>
             </div>
         </div>
     )

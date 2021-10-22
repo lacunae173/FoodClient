@@ -5,10 +5,10 @@ function Dish(props) {
     const dispatch = useDispatch()
 
     const onAddButtonClicked = (event) => {
-        console.log("add");
-        // dispatch(
-        //     dishAdded(props.dish.id)
-        // )
+        console.log("add" + props.dish.name);
+        dispatch(
+            dishAdded(props.dish.id)
+        )
     }
 
     return (
@@ -21,7 +21,7 @@ function Dish(props) {
                 <h3>{props.dish.name}</h3>
                 <div className="flex justify-between">
                     <span className="font-semibold text-sm">${props.dish.price}</span>
-                    <button onClick={onAddButtonClicked} className="bg-yellow-200 rounded-full w-6 h-6 font-bold">+</button>
+                    <button onClick={onAddButtonClicked}className="bg-yellow-200 rounded-full w-6 h-6 font-bold">+</button>
                 </div>
             </div>
 

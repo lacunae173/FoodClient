@@ -51,7 +51,7 @@ function Main(props) {
 
                 </div>
                 <div className="md:hidden flex flex-col justify-center">
-                    <div className={`fixed h-full w-full top-0 left-0  transition-all duration-300 ${showCart ? "bg-opacity-50 bg-black" : "bg-transparent"
+                    <div onClick={() => setShowCart(false)} className={`fixed h-full w-full top-0 left-0  transition-all duration-300 ${showCart ? "bg-opacity-50 bg-black" : "bg-transparent z-m1"
                         } `}></div>
                     <div className={`m-4 fixed bottom-16 w-90p self-center transition-all duration-300 transform ${showCart ? "opacity-100 " : "opacity-0 translate-y-96"
                         }`}>

@@ -21,7 +21,7 @@ function Dish(props) {
                 <h3>{props.dish.name}</h3>
                 <div className="flex justify-between">
                     <span className="font-semibold text-sm">${props.dish.price}</span>
-                    <button onClick={onAddButtonClicked}className="bg-yellow-200 rounded-full w-6 h-6 font-bold">+</button>
+                    <button onClick={onAddButtonClicked} className="bg-yellow-200 rounded-full w-6 h-6 font-bold hover:bg-yellow-300">+</button>
                 </div>
             </div>
 

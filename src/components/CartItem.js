@@ -39,7 +39,7 @@ function CartItem(props) {
             </div>
             
             <div className="align-bottom">
-                <span className="font-semibold text-sm">{`$${props.dish.price * props.number}`}</span>
+                <span className="font-semibold text-sm">{`$${(props.dish.price * props.number).toFixed(2)}`}</span>
             </div>
         </div>
     )

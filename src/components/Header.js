@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom";
+
 function Header(props) {
     return (
         <div className="flex justify-between p-3 bg-yellow-200 z-50">
-           <h2 className="font-bold text-xl">Food</h2>
+            <Link to="/" replace><h2 className="font-bold text-xl">Food</h2></Link>
+           
            <div >
                 
                 <button>

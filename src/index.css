@@ -13,6 +13,10 @@
         .card-body {
           @apply p-3
         }
+
+        .form-control {
+          @apply p-2 text-sm rounded-lg  border-2 border-yellow-300 focus:outline-none focus:border-yellow-500
+        }
     }
 }
 

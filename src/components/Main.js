@@ -6,6 +6,7 @@ import Checkout from "./Checkout";
 import Header from "./Header";
 import Menu from "./Menu";
 import MenuPage from "./MenuPage";
+import MyPage from "./MyPage";
 
 function Main(props) {
     const [menu, setMenu] = useState([]);
@@ -27,18 +28,21 @@ function Main(props) {
             <div className="fixed w-full">
                 <Header />
             </div>
-            <Switch>
-                <Route path="/checkout">
-                    <div className="checkoutpage">
-                        <div className="p-3 pt-16">
-                            <Checkout dishes={menu} />
-                        </div>
-                    </div>
-                </Route>
-                <Route path="/">
-                    <MenuPage menu={menu} />
-                </Route>                
-            </Switch>            
+            <div className="pt-14">
+                <Switch>
+                    <Route path="/checkout">
+                        <Checkout dishes={menu} />
+                    </Route>
+                    <Route path="/my-page">
+                        <MyPage menu={menu} />
+                    </Route>
+                    <Route path="/">
+                        <MenuPage menu={menu} />
+                    </Route>
+
+                </Switch>
+            </div>
+             
         </div>
     )
 }

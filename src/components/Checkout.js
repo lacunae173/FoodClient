@@ -1,5 +1,10 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router";
+import { userLoggedIn, userLoggedOut } from "../redux/userSlice";
+import { refresh } from "../services/authServices";
+import { getAllOrders } from "../services/orderServices";
+import Login from "./Login";
 
 function Checkout(props) {
     
@@ -26,13 +31,38 @@ function Checkout(props) {
     const total = prices.reduce((prev, curr) => prev + curr);
 
     let location = useLocation();
+
+    let token = useSelector(state => state.user.token);
+    let auth = useSelector(state => state.user.authenticated)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (token && auth) {
+            getAllOrders(token)
+                .then(data => {
+                }, err => {
+                    dispatch(userLoggedOut(token))
+                    refresh(token)
+                        .then(data => {
+                            dispatch(userLoggedIn(data))
+                        }, err => {
+                            dispatch(userLoggedOut(err))
+                        })
+                });
+        }
+    }, [])
+
     if (!(location.state&&location.state.byButton)) {
         return <Redirect to="/" />
     }
 
+    if (!auth) {
+        return <Login />
+    }
+
     return (
         <div className="checkoutpage">
-                        <div className="p-3">
+            <div className="p-3">
                 <div className="flex flex-col space-y-3">
                     {/* <Cart dishes={props.dishes} fullsize /> */}
                     <div className="card">
@@ -51,7 +81,7 @@ function Checkout(props) {
                                 <span className="flex items-center p-2 text-gray-500">
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </span>
-                                <input type="text" className="p-2 text-sm rounded-md  focus:outline-none focus:bg-white w-full" placeholder="Name" autoComplete="off" />
+                                <input type="text" className="form-control w-full" placeholder="Name" autoComplete="off" />
                             </div>
 
                             <div className="flex">

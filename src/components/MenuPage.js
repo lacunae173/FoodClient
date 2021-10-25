@@ -22,7 +22,7 @@ function MenuPage(props) {
 
     return (
         <div className="menupage">
-            <div className="px-3 pt-16 pb-20 md:grid md:grid-cols-3">
+            <div className="px-3 pb-20 md:grid md:grid-cols-3">
                 <div className="p-2 md:col-span-2">
                     <Menu menu={props.menu} />
 

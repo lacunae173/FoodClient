@@ -5,6 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { saveState } from './utils/localstorage';
+
+store.subscribe(() => {
+  saveState({
+    cart: store.getState().cart,
+    user: store.getState().user
+  });
+})
 
 ReactDOM.render(
   <React.StrictMode>

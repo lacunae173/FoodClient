@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router";
+import { Redirect, useHistory, useLocation } from "react-router";
 import { userLoggedIn, userLoggedOut } from "../redux/userSlice";
 import { refresh } from "../services/authServices";
 import { getAllOrders } from "../services/orderServices";
@@ -31,33 +31,30 @@ function Checkout(props) {
     const total = prices.reduce((prev, curr) => prev + curr);
 
     let location = useLocation();
+    let history = useHistory();
 
     let token = useSelector(state => state.user.token);
     let auth = useSelector(state => state.user.authenticated)
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (token && auth) {
-            getAllOrders(token)
-                .then(data => {
-                }, err => {
-                    dispatch(userLoggedOut(token))
-                    refresh(token)
-                        .then(data => {
-                            dispatch(userLoggedIn(data))
-                        }, err => {
-                            dispatch(userLoggedOut(err))
-                        })
-                });
-        }
+        // if (token && auth) {
+        //     getAllOrders(token)
+        //         .then(data => {
+        //         }, err => {
+        //             dispatch(userLoggedOut(token))
+        //             refresh(token)
+        //                 .then(data => {
+        //                     dispatch(userLoggedIn(data))
+        //                 }, err => {
+        //                     dispatch(userLoggedOut(err))
+        //                 })
+        //         });
+        // }
     }, [])
 
     if (!(location.state&&location.state.byButton)) {
-        return <Redirect to="/" />
-    }
-
-    if (!auth) {
-        return <Login />
+        return history.replace("/")
     }
 
     return (

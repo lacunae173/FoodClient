@@ -12,7 +12,11 @@ function OrderItem(props) {
     // console.log("od:", orderedDishes)
     
     const priceList = orderedDishes.map((od) => {
-        return od.dish.price * od.number;
+        if (od.dish) {
+
+            return od.dish.price * od.number;
+        }
+        return 0
     })
 
     const total = priceList.reduce((prev, curr) => {

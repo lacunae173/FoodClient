@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { useState } from "react"
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import { userError, userLoggedIn } from "../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router";
+import { userError, userLoggedIn, userLogIn } from "../redux/userSlice";
 import { login } from "../services/authServices";
 
 function Login(props) {
@@ -10,23 +11,35 @@ function Login(props) {
     const [submitted, setSubmitted] = useState(false);
 
     const history = useHistory();
+    const location = useLocation();
+
+    const authStatus = useSelector(state => state.user.status)
 
     const dispatch = useDispatch();    
     
+    let { from } = location.state || { from: { pathname: "/" } };
+
+    // console.log("from", from);
+
+    useEffect(() => {
+        if (authStatus === 'succeeded')
+            history.replace(from);
+    }, [authStatus])
 
     function handleSubmit(e) {
         e.preventDefault();
         setSubmitted(true);
 
         if (username && password) {
-            login({username, password})
-            .then(data => {
-                dispatch(userLoggedIn(data))
-                window.location.reload()
-            }, err => {
-                dispatch(userError(err))
-                alert("Wrong username or password");
-            })
+            dispatch(userLogIn({username, password}))
+            // login({username, password})
+            // .then(data => {
+            //     dispatch(userLoggedIn(data))
+            //     window.location.reload()
+            // }, err => {
+            //     dispatch(userError(err))
+            //     alert("Wrong username or password");
+            // })
         }
 
     }

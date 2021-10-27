@@ -4,7 +4,8 @@ import { login, logout, refresh, register } from "../services/authServices";
 const initialState = {
     token: {},
     authenticated: false,
-    status: 'idle',
+    loginStatus: 'idle',
+    regStatus: 'idle',
     error: null,
 }
 
@@ -20,6 +21,11 @@ export const userRefresh = createAsyncThunk('user/refresh', (token) => {
     return refresh(token);
 })
 
+export const userRegister = createAsyncThunk('user/register', async (regData) => {
+    const data = await register(regData)
+    return data;
+})
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -32,37 +38,32 @@ export const userSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(userLogIn.pending, (state, action) => {
-                state.status = 'loading'
+                state.loginStatus = 'loading'
             })
             .addCase(userLogIn.fulfilled, (state, action) => {
-                state.status = 'succeeded'
+                state.loginStatus = 'succeeded'
                 state.authenticated = true;
                 state.token = action.payload;
             })
             .addCase(userLogIn.rejected, (state, action) => {
-                state.status = 'failed'
+                state.loginStatus = 'failed'
                 state.authenticated = false;
                 state.error = action.error.message
                 state.token = null;
             })
             .addCase(userRefresh.fulfilled, (state, action) => {
-                state.status = 'succeeded'
+                state.loginStatus = 'succeeded'
                 state.authenticated = true;
                 state.token = action.payload;
             })
             .addCase(userRefresh.rejected, (state, action) => {
-                state.status = 'failed'
+                state.loginStatus = 'failed'
                 state.authenticated = false;
                 state.error = action.error.message
                 state.token = null;
             })
             .addCase(userLogOut.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                state.authenticated = false;
-                state.token = null;
-            })
-            .addCase(userLogOut.rejected, (state, action) => {
-                state.status = 'failed'
+                state.loginStatus = 'succeeded'
                 state.authenticated = false;
                 state.token = null;
             })

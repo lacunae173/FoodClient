@@ -1,10 +1,5 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory, useLocation } from "react-router";
-import { userLoggedIn, userLoggedOut } from "../redux/userSlice";
-import { refresh } from "../services/authServices";
-import { getAllOrders } from "../services/orderServices";
-import Login from "./Login";
+import { useHistory, useLocation } from "react-router";
 
 function Checkout(props) {
     
@@ -36,22 +31,6 @@ function Checkout(props) {
     let token = useSelector(state => state.user.token);
     let auth = useSelector(state => state.user.authenticated)
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        // if (token && auth) {
-        //     getAllOrders(token)
-        //         .then(data => {
-        //         }, err => {
-        //             dispatch(userLoggedOut(token))
-        //             refresh(token)
-        //                 .then(data => {
-        //                     dispatch(userLoggedIn(data))
-        //                 }, err => {
-        //                     dispatch(userLoggedOut(err))
-        //                 })
-        //         });
-        // }
-    }, [])
 
     if (!(location.state&&location.state.byButton)) {
         return history.replace("/")

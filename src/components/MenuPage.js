@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Cart from "./Cart";
 import CartBar from "./CartBar";
-import Checkout from "./Checkout";
-import Header from "./Header";
 import Menu from "./Menu";
 
 function MenuPage(props) {

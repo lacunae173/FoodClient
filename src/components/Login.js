@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-import { userError, userLoggedIn, userLogIn } from "../redux/userSlice";
-import { login } from "../services/authServices";
+import { Link } from "react-router-dom";
+import { userLogIn } from "../redux/userSlice";
 
 function Login(props) {
     const [username, setUsername] = useState("");
@@ -13,7 +13,7 @@ function Login(props) {
     const history = useHistory();
     const location = useLocation();
 
-    const authStatus = useSelector(state => state.user.status)
+    const authStatus = useSelector(state => state.user.loginStatus)
 
     const dispatch = useDispatch();    
     
@@ -23,7 +23,7 @@ function Login(props) {
 
     useEffect(() => {
         if (authStatus === 'succeeded')
-            history.replace(from);
+            history.replace("/my-page");
     }, [authStatus])
 
     function handleSubmit(e) {
@@ -32,14 +32,7 @@ function Login(props) {
 
         if (username && password) {
             dispatch(userLogIn({username, password}))
-            // login({username, password})
-            // .then(data => {
-            //     dispatch(userLoggedIn(data))
-            //     window.location.reload()
-            // }, err => {
-            //     dispatch(userError(err))
-            //     alert("Wrong username or password");
-            // })
+
         }
 
     }
@@ -64,10 +57,12 @@ function Login(props) {
                             *This field is required.
                         </div>
                     }
+                    <input className="my-4 p-2 rounded-lg w-full bg-yellow-300 hover:bg-yellow-200" type="submit" value="Log In"></input>
                     <div className="flex justify-center">
-                        <input className="my-4 p-2 rounded-lg w-full bg-yellow-300 hover:bg-yellow-200" type="submit" value="Log In"></input>
+                        <Link className="underline" to="/register">Register</Link>
                     </div>
-
+                   
+                    
                 </form>
             </div>
         </div>

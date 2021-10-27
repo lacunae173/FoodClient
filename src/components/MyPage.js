@@ -1,19 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router";
-import { fetchOrders, ordersFetched, selectAllOrders, userLoggedOut } from "../redux/orderSlice";
-import store from "../redux/store";
-import { loggingOut, userLogOut, userRefresh } from "../redux/userSlice";
-import { logout, refresh } from "../services/authServices";
-import { getAllOrders } from "../services/orderServices";
-import Login from "./Login";
+import { fetchOrders, selectAllOrders } from "../redux/orderSlice";
+import { userLogOut, userRefresh } from "../redux/userSlice";
 import Orders from "./Orders";
 import { Spinner } from "./Spinner";
 
 function MyPage(props) {
-    // const [token, setToken] = useState(useSelector(state => state.user.token))
-    // const [orders, setOrders] = useState([]);
-    // const [auth, setAuth] = useState(false);
 
     const token = useSelector(state => state.user.token);
     const auth = useSelector(state => state.user.authenticated)
@@ -30,20 +22,6 @@ function MyPage(props) {
             if (orderStatus === 'failed') {
                 dispatch(userRefresh(token))
             }
-            // getAllOrders(token)
-            //     .then(data => {
-            //         console.log(data)
-            //         dispatch(ordersFetched(data))
-            //     }, err => {
-            //         dispatch(userLoggedOut(token))
-            //         refresh(token)
-            //             .then(data => {
-            //                 dispatch(userLoggedIn(data)) 
-            //                 // window.location.reload();                       
-            //             }, err => {
-            //                 dispatch(userLoggedOut(err))
-            //             })
-            //     });
         }
     }, [orderStatus, dispatch, auth])
 
@@ -52,7 +30,6 @@ function MyPage(props) {
     function handleLogout(e) {
         dispatch(userLogOut(token));
         window.location.reload();
-        // setOrders([]);
     }
 
     

@@ -28,19 +28,28 @@ export const refresh = (data) => {
     return fetch(`${apiUrl}/users/login/refresh/`, requestOptions).then(handleResponse)
 }
 
-const handleResponse = (response) => {
-    return response.text()
-        .then(text => {
-            const data = text && JSON.parse(text);
-            if (!response.ok) {
-                if (response.status === 401) {
-                    //logout
-                }
-
-                const error = (data && data.message) || response.statusText;
-                return Promise.reject(error);
-            }
-
-            return data;
-        });
+const handleResponse = async (response) => {
+    let text
+    try {
+       let text = await response.text();
+       if (response.ok) {
+           return JSON.parse(text);
+       } else {
+           throw new Error(text)
+       }
+       
+    } catch (err) {
+        return Promise.reject(err.message)
+    }
+    // return response.json()
+    //     .then(data => {
+    //         if (!response.ok) {
+    //             if (response.status === 400) {
+    //                 return Promise.reject(data);
+    //             }
+    //             const error = (data && data.message) || response.statusText;
+    //             return Promise.reject(error);
+    //         }
+    //         return data;
+    //     });
 }

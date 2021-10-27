@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router";
+import Register from "./auth/Register";
 import Cart from "./Cart";
 import CartBar from "./CartBar";
 import Checkout from "./Checkout";
@@ -16,7 +17,12 @@ function Main(props) {
     
     useEffect(() => {
         fetch('http://127.0.0.1:8000/menu.json')
-            .then(response => response.json())
+            .then(response => {
+                if (response.ok){
+                    return response.json()
+                }
+                throw(Error("error"));
+            })
             .then(data => {
                 setMenu(data)
             })
@@ -44,6 +50,9 @@ function Main(props) {
                     </PrivateRoute>
                     <Route path="/login">
                         <Login />
+                    </Route>
+                    <Route path="/register">
+                        <Register />
                     </Route>
                     <Route path="/">
                         <MenuPage menu={menu} />

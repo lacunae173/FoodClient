@@ -1,5 +1,4 @@
-order page
-checkout page input cover header
-router
-login 
+checkout: post order
+api to check auth?
+Order detail
 redux: cart add and minus

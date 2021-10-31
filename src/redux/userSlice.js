@@ -63,7 +63,12 @@ export const userSlice = createSlice({
                 state.token = null;
             })
             .addCase(userLogOut.fulfilled, (state, action) => {
-                state.loginStatus = 'succeeded'
+                state.loginStatus = 'failed'
+                state.authenticated = false;
+                state.token = null;
+            })
+            .addCase(userLogOut.rejected, (state, action) => {
+                state.loginStatus = 'failed'
                 state.authenticated = false;
                 state.token = null;
             })

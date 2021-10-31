@@ -1,5 +1,10 @@
+import jwtDecode from "jwt-decode";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
+import { clearCart } from "../../redux/cartSlice";
+import { createOrder, fetchOrders } from "../../redux/orderSlice";
+import { userRefresh } from "../../redux/userSlice";
 
 function Checkout(props) {
     
@@ -29,10 +34,82 @@ function Checkout(props) {
     let history = useHistory();
 
     let token = useSelector(state => state.user.token);
-    let auth = useSelector(state => state.user.authenticated)
+
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [reqStatus, setReqStatus] = useState('idle')
+    const [errMsg, setErrMsg] = useState('')
+
+    // const [userStatus, setUserStatus] = useState('idle')
+
+
+    const auth = useSelector(state => state.user.authenticated)
+    // const orderStatus = useSelector(state => state.order.status)
+
     const dispatch = useDispatch();
 
-    if (!(location.state&&location.state.byButton)) {
+    useEffect(() => {
+        if (token && auth) {
+            const tokenExp = jwtDecode(token.access).exp 
+            console.log(tokenExp)
+            if (tokenExp && (tokenExp - Date.now()) < 5000) {
+                dispatch(userRefresh(token))
+            }
+        }
+    }, [])
+
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(token.access)
+        const cartData = cart.map((item) => ({dish_id: item.dishId, number: item.number}))
+        const body = { address, phone, orderedDishes: cartData };
+        console.log(body)
+        // const requestOptions = {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': 'Bearer ' + token.access
+        //     },
+        //     body: JSON.stringify(body)
+        // }
+        //  fetch(`http://127.0.0.1:8000/orders/`, requestOptions).then(async (response) => {
+        //     try {
+        //         let text = await response.text();
+        //         if (response.ok) {
+        //             console.log(JSON.parse(text));
+        //         } else {
+        //             throw new Error(text)
+        //         }
+        //     } catch (err) {
+        //         console.log(err.message);
+        //     }
+        // })
+        if (address && phone && reqStatus === 'idle') {
+            setReqStatus('pending')
+            setErrMsg('')
+            try{
+                console.log(token.access)
+                console.log(jwtDecode(token.access));
+
+                await dispatch(createOrder({body, token})).unwrap()
+                setPhone('')
+                setAddress('')
+                dispatch(clearCart());
+                history.replace('/my-page')
+            } catch (err) {
+                console.error('Fail to place order: ', err)
+            } finally {
+                setReqStatus('idle')
+            }
+        } else {
+            setErrMsg("Missing required field")
+        }
+    }
+
+
+    if (!(location.state && location.state.byButton)) {
         return history.replace("/")
     }
 
@@ -53,25 +130,25 @@ function Checkout(props) {
                         <div className="card-title">Contact</div>
                         <div className="card-body flex flex-col space-y-2">
 
-                            <div className="flex">
+                            {/* <div className="flex">
                                 <span className="flex items-center p-2 text-gray-500">
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </span>
                                 <input type="text" className="form-control w-full" placeholder="Name" autoComplete="off" />
-                            </div>
+                            </div> */}
 
                             <div className="flex">
                                 <span className="flex items-center p-2 text-gray-500">
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                 </span>
-                                <input type="text" className="p-2 text-sm rounded-md  focus:outline-none focus:bg-white w-full" placeholder="Phone" autoComplete="off" />
+                                <input onChange={(e) => setPhone(e.target.value)} value={phone} type="text" className="p-2 text-sm rounded-md  focus:outline-none focus:bg-white w-full" placeholder="Phone" autoComplete="off" />
                             </div>
 
                             <div className="flex">
                                 <span className="flex items-center p-2 text-gray-500">
                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 </span>
-                                <input type="text" className="p-2 text-sm rounded-md  focus:outline-none focus:bg-white w-full" placeholder="Address" autoComplete="off" />
+                                <input onChange={(e) => setAddress(e.target.value)} value={address} type="text" className="p-2 text-sm rounded-md  focus:outline-none focus:bg-white w-full" placeholder="Address" autoComplete="off" />
                             </div>
 
 
@@ -104,10 +181,11 @@ function Checkout(props) {
                             </div>
                         </div>
                     </div>
-                    <button className="bg-yellow-300 w-full rounded-full p-2 font-semibold">Confirm</button>
+                    {errMsg && <div className="text-sm text-red-500">*{errMsg}</div>}
+                    <button className="bg-yellow-300 w-full rounded-full p-2 font-semibold hover:bg-yellow-200" onClick={handleSubmit}>Confirm</button>
                 </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
         
     )
 }

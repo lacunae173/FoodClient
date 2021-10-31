@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { dishAdded } from '../redux/cartSlice'
+import { dishAdded } from '../../redux/cartSlice'
 
 function Dish(props) {
     const dispatch = useDispatch()

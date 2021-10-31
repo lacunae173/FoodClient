@@ -30,9 +30,12 @@ export const cartSlice = createSlice({
             } else {
                 state.splice(dishIdx, 1)
             }
+        },
+        clearCart: (state, action) => {
+            state = [];
         }
     }
 })
 
-export const { dishAdded, dishDeleted } = cartSlice.actions
+export const { dishAdded, dishDeleted, clearCart } = cartSlice.actions
 export default cartSlice.reducer

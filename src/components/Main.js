@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import { Route, Switch } from "react-router";
-import Register from "./auth/Register";
-import Cart from "./Cart";
-import CartBar from "./CartBar";
-import Checkout from "./Checkout";
-import Header from "./Header";
-import Login from "./Login";
-import Menu from "./Menu";
-import MenuPage from "./MenuPage";
-import MyPage from "./MyPage";
-import OrderDetail from "./OrderDetail";
-import PrivateRoute from "./PrivateRoute";
+import Register from "./user/Register";
+import Checkout from "./order/Checkout";
+import Header from "./util/Header";
+import Login from "./user/Login";
+import MenuPage from "./menu/MenuPage";
+import MyPage from "./order/MyPage";
+import OrderDetail from "./order/OrderDetail";
+import PrivateRoute from "./util/PrivateRoute";
 
 function Main(props) {
     const [menu, setMenu] = useState([]);
@@ -42,7 +39,7 @@ function Main(props) {
                     <PrivateRoute path="/checkout">
                         <Checkout dishes={menu} />
                     </PrivateRoute>
-                    <Route path="/my-page/:id">
+                    <Route path="/orders/:id">
                         <OrderDetail />
                     </Route>
                     <PrivateRoute path="/my-page">

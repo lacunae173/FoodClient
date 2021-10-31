@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import { Link } from "react-router-dom";
-import { userLogIn } from "../redux/userSlice";
+import { userLogIn } from "../../redux/userSlice";
 
 function Login(props) {
     const [username, setUsername] = useState("");
@@ -23,7 +23,7 @@ function Login(props) {
 
     useEffect(() => {
         if (authStatus === 'succeeded')
-            history.replace("/my-page");
+            history.replace(from);
     }, [authStatus])
 
     function handleSubmit(e) {

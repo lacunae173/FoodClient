@@ -10,9 +10,7 @@ import { saveState } from './utils/localstorage';
 store.subscribe(() => {
   saveState({
     cart: store.getState().cart,
-    user: {
-      token: store.getState().user.token
-    }
+    user: store.getState().user
   });
 })
 

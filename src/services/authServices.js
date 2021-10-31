@@ -29,7 +29,7 @@ export const refresh = (data) => {
 }
 
 const handleResponse = async (response) => {
-    let text
+    // let text
     try {
        let text = await response.text();
        if (response.ok) {

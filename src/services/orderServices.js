@@ -1,6 +1,6 @@
 import { apiUrl } from "./config";
 
-export const getAllOrders = (token) => {
+export const getAllOrders =  (token) => {
     const requestOptions = {
         method: 'GET',
         headers: {
@@ -8,13 +8,51 @@ export const getAllOrders = (token) => {
             'Authorization': 'Bearer ' + token.access
         },
     }
-    return fetch(`${apiUrl}/orders/`, requestOptions).then(response => response.text()
-        .then(text => {
-            const data = text && JSON.parse(text);
-            if (!response.ok) {
-                const error = (data && data.message) || response.statusText;
-                return Promise.reject(error);
+    return fetch(`${apiUrl}/orders/`, requestOptions).then( async (response) => {
+        try {
+            let text = await response.text();
+            if (response.ok) {
+                return JSON.parse(text);
+            } else {
+                throw new Error(text)
             }
-            return data;
-        }))
+        } catch(err) {
+            return Promise.reject(err.message)
+        }
+    })
+        // try {
+        //     let text = await response.text();
+        //     if (response.ok) {
+        //         return JSON.parse(text);
+        //     } else {
+        //         throw new Error(text)
+        //     }
+
+        // } catch (err) {
+        //     return Promise.reject(err.message)
+        // })
+    
+}
+
+export const addOrder = (data, token) => {
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token.access
+        },
+        body: JSON.stringify(data)
+    }
+    return fetch(`${apiUrl}/orders/`, requestOptions).then(async (response) => {
+        try {
+            let text = await response.text();
+            if (response.ok) {
+                return JSON.parse(text);
+            } else {
+                throw new Error(text)
+            }
+        } catch (err) {
+            return Promise.reject(err.message)
+        }
+    })
 }

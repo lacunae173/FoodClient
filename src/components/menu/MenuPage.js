@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Cart from "./Cart";
-import CartBar from "./CartBar";
+import Cart from "../cart/Cart";
+import CartBar from "../cart/CartBar";
 import Menu from "./Menu";
 
 function MenuPage(props) {

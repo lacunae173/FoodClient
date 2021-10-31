@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { userRegister } from "../../redux/userSlice";
-import FormInput from "./FormInput";
+import FormInput from "../util/FormInput";
 
 function Register(props) {
     const [username, setUsername] = useState("");

@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrders, selectAllOrders } from "../redux/orderSlice";
-import { userLogOut, userRefresh } from "../redux/userSlice";
+import { fetchOrders, selectAllOrders, userLoggedOut } from "../../redux/orderSlice";
+import { loggingOut, userLogOut, userRefresh } from "../../redux/userSlice";
 import Orders from "./Orders";
-import { Spinner } from "./Spinner";
 
 function MyPage(props) {
 
@@ -23,19 +22,21 @@ function MyPage(props) {
                 dispatch(userRefresh(token))
             }
         }
-    }, [orderStatus, dispatch, auth])
+    }, [orderStatus, dispatch])
 
     
 
     function handleLogout(e) {
+        dispatch(userLoggedOut());
+        dispatch(loggingOut());
         dispatch(userLogOut(token));
-        window.location.reload();
+        // window.location.reload();
     }
 
     
     let content;
     if (orderStatus === 'loading') {
-        content = <Spinner />
+        content = <div>Loading...</div>
     } else if (orderStatus === 'succeeded') {
         content = orders && <Orders orders={orders} menu={props.menu} />
     }

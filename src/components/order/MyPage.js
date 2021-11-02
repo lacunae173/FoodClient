@@ -13,13 +13,14 @@ function MyPage(props) {
     const orderStatus = useSelector(state => state.order.status)
 
     const dispatch = useDispatch();
-    useEffect(() => {
+    useEffect(async () => {
         if (token && auth) {
             if (orderStatus === 'idle') {
                 dispatch(fetchOrders(token))
             }
             if (orderStatus === 'failed') {
-                dispatch(userRefresh(token))
+                await dispatch(userRefresh(token))
+                dispatch(fetchOrders(token))
             }
         }
     }, [orderStatus, dispatch])

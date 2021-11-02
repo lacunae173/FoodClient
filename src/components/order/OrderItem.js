@@ -40,7 +40,7 @@ function OrderItem(props) {
             </div>
             <div className="flex flex-col justify-between">
                 <div className="font-semibold">
-                    ${total}
+                    ${total.toFixed(2)}
                 </div>
                 <div className="text-gray-400 text-sm text-right">
                     <Link className="underline" to={`/orders/${order.id}`}>Detail</Link>

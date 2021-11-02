@@ -55,7 +55,7 @@ export const orderSlice = createSlice({
 export const selectAllOrders = state => state.order.orders;
 
 export const selectOrderById = (state, orderId) => 
-    state.order.orders.find(order => order.id === orderId);
+    state.order.orders.find((order) => `${order.id}` === `${orderId}`)
 
 export const { userLoggedOut } = orderSlice.actions;
 export default orderSlice.reducer

@@ -20,7 +20,20 @@ export const register = (data) => {
 
 export const logout = (data) => {
     requestOptions.body = JSON.stringify(data);
-    return fetch(`${apiUrl}/users/logout/`, requestOptions).then(handleResponse)
+    return fetch(`${apiUrl}/users/logout/`, requestOptions).then(async (response) => {
+        try {
+            let text = await response.text();
+            if (response.ok) {
+                return response.statusText;
+            } else {
+                throw new Error(text)
+            }
+
+        } catch (err) {
+            return Promise.reject(err.message)
+        }
+        // let text
+    })
 }
 
 export const refresh = (data) => {

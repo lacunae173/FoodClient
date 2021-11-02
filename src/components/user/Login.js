@@ -13,7 +13,7 @@ function Login(props) {
     const history = useHistory();
     const location = useLocation();
 
-    const authStatus = useSelector(state => state.user.loginStatus)
+    const loginStatus = useSelector(state => state.user.loginStatus)
 
     const dispatch = useDispatch();    
     
@@ -21,18 +21,24 @@ function Login(props) {
 
     // console.log("from", from);
 
-    useEffect(() => {
-        if (authStatus === 'succeeded')
-            history.replace(from);
-    }, [authStatus])
+    const [errMessages, setErrMessages] = useState({})
 
-    function handleSubmit(e) {
+
+    async function handleSubmit(e) {
         e.preventDefault();
         setSubmitted(true);
 
         if (username && password) {
-            dispatch(userLogIn({username, password}))
-
+            try {
+                await dispatch(userLogIn({ username, password })).unwrap()
+                setUsername('')
+                setPassword('')
+                history.replace('/my-page');
+            } catch (err) {
+                // console.error('Failed to register', err)
+                setErrMessages({ ...errMessages, ...JSON.parse(err.message) })
+        } 
+            
         }
 
     }
@@ -56,6 +62,13 @@ function Login(props) {
                         <div className="block text-xs text-red-500">
                             *This field is required.
                         </div>
+                    }
+                    {
+                        Object.values(errMessages).map((err, idx) => {
+                            console.log(err);
+                            return (
+                                <div className="block text-xs text-red-500" key={`err-${idx}`}><div>*{err}</div></div>
+                            )})
                     }
                     <input className="my-4 p-2 rounded-lg w-full bg-yellow-300 hover:bg-yellow-200" type="submit" value="Log In"></input>
                     <div className="flex justify-center">

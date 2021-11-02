@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { saveState } from "../utils/localstorage";
 
 export const cartSlice = createSlice({
     name: 'cart',
@@ -32,7 +33,8 @@ export const cartSlice = createSlice({
             }
         },
         clearCart: (state, action) => {
-            state = [];
+            state.splice(0, state.length)
+            // localStorage.clear()
         }
     }
 })

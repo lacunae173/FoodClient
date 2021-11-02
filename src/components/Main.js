@@ -39,9 +39,9 @@ function Main(props) {
                     <PrivateRoute path="/checkout">
                         <Checkout dishes={menu} />
                     </PrivateRoute>
-                    <Route path="/orders/:id">
-                        <OrderDetail />
-                    </Route>
+                    <PrivateRoute path="/orders/:id">
+                        <OrderDetail dishes={menu} />
+                    </PrivateRoute>
                     <PrivateRoute path="/my-page">
                         <MyPage menu={menu} />
                     </PrivateRoute>

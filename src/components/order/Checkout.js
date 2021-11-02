@@ -5,6 +5,7 @@ import { useHistory, useLocation } from "react-router";
 import { clearCart } from "../../redux/cartSlice";
 import { createOrder, fetchOrders } from "../../redux/orderSlice";
 import { userRefresh } from "../../redux/userSlice";
+import { saveState } from "../../utils/localstorage";
 
 function Checkout(props) {
     
@@ -28,7 +29,7 @@ function Checkout(props) {
         return dish ? dish.price * number:0
     })
 
-    const total = prices.reduce((prev, curr) => prev + curr);
+    const total = prices.reduce((prev, curr) => prev + curr, 0);
 
     let location = useLocation();
     let history = useHistory();
@@ -56,6 +57,12 @@ function Checkout(props) {
                 dispatch(userRefresh(token))
             }
         }
+        return () => {
+            setPhone('')
+            setAddress('')
+            setErrMsg('')
+            setReqStatus('')
+        }
     }, [])
 
 
@@ -66,26 +73,7 @@ function Checkout(props) {
         const cartData = cart.map((item) => ({dish_id: item.dishId, number: item.number}))
         const body = { address, phone, orderedDishes: cartData };
         console.log(body)
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': 'Bearer ' + token.access
-        //     },
-        //     body: JSON.stringify(body)
-        // }
-        //  fetch(`http://127.0.0.1:8000/orders/`, requestOptions).then(async (response) => {
-        //     try {
-        //         let text = await response.text();
-        //         if (response.ok) {
-        //             console.log(JSON.parse(text));
-        //         } else {
-        //             throw new Error(text)
-        //         }
-        //     } catch (err) {
-        //         console.log(err.message);
-        //     }
-        // })
+
         if (address && phone && reqStatus === 'idle') {
             setReqStatus('pending')
             setErrMsg('')
@@ -96,7 +84,10 @@ function Checkout(props) {
                 await dispatch(createOrder({body, token})).unwrap()
                 setPhone('')
                 setAddress('')
-                dispatch(clearCart());
+                await dispatch(clearCart())
+                await saveState({
+                    cart
+                })
                 history.replace('/my-page')
             } catch (err) {
                 console.error('Fail to place order: ', err)
@@ -123,7 +114,7 @@ function Checkout(props) {
                             {renderedDishList}
                         </div>
                         <div className="flex justify-end px-2 pb-2 font-semibold">
-                            Total: ${total}
+                            Total: ${total.toFixed(2)}
                         </div>
                     </div>
                     <div className="card">

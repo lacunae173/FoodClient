@@ -30,12 +30,7 @@ function OrderDetail(props) {
 
         )
     }
-    
 
-    // const renderedDishList = order.orderedDishes.map(({ dishId, number }) => {
-    //     const dish = props.dishes.find((dish) => dish.id === dishId);
-    //     return dish && <OrderedDish key={dish.id} dish={dish} number={number} />
-    // })
     return (
         <div className="m-3">
             <Link className="text-gray-400" to="/my-page">{'<Back'}</Link>

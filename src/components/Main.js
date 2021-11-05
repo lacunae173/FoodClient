@@ -8,12 +8,13 @@ import MenuPage from "./menu/MenuPage";
 import MyPage from "./order/MyPage";
 import OrderDetail from "./order/OrderDetail";
 import PrivateRoute from "./util/PrivateRoute";
+import { apiUrl } from "../services/config";
 
 function Main(props) {
     const [menu, setMenu] = useState([]);
     
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/menu.json')
+        fetch(`${apiUrl}/menu.json`)
             .then(response => {
                 if (response.ok){
                     return response.json()

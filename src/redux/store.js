@@ -15,26 +15,6 @@ const logger = store => next => action => {
     return result
 }
 
-// const jwt = (dispatch, getState) => {
-//     return (next) => (action) => {
-//         if (typeof action === 'function') {
-//             if (getState().user && getState().user.token) {
-//                 var tokenExpiration = jwtDecode(getState().auth.token).exp
-//                 if (tokenExpiration && (tokenExpiration - Date.now()) < 5000) {
-//                     if (!getState().user.tokenRefreshPromise) {
-//                         return refreshToken(dispatch).then(() => next(action));
-//                     } else {
-//                         return getState().auth.tokenRefreshPromise.then(() => next(action))
-//                     }
-//                 }
-//             }
-//         }
-//         return next(action)
-//     }
-
-// }
-
-
 export default configureStore({
     reducer: {
         cart: cartReducer,
@@ -42,5 +22,5 @@ export default configureStore({
         order: orderReducer,
     },
     preloadedState: preloadedstate,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 })

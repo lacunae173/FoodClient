@@ -49,12 +49,12 @@ function Checkout(props) {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect(async () => {
         if (token && auth) {
             const tokenExp = jwtDecode(token.access).exp 
-            console.log(tokenExp)
+            // console.log(tokenExp)
             if (tokenExp && (tokenExp - Date.now()) < 5000) {
-                dispatch(userRefresh(token))
+                await dispatch(userRefresh(token))
             }
         }
         return () => {
@@ -69,17 +69,17 @@ function Checkout(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(token.access)
+        // console.log(token.access)
         const cartData = cart.map((item) => ({dish_id: item.dishId, number: item.number}))
         const body = { address, phone, orderedDishes: cartData };
-        console.log(body)
+        // console.log(body)
 
         if (address && phone && reqStatus === 'idle') {
             setReqStatus('pending')
             setErrMsg('')
             try{
-                console.log(token.access)
-                console.log(jwtDecode(token.access));
+                // console.log(token.access)
+                // console.log(jwtDecode(token.access));
 
                 await dispatch(createOrder({body, token})).unwrap()
                 setPhone('')

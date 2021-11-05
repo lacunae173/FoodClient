@@ -11,8 +11,6 @@ function MenuPage(props) {
     const toggleCart = (event) => {
         event.preventDefault();
         setShowCart(!showCart)
-
-        console.log(showCart)
     }
 
     const overlay = <div onClick={() => setShowCart(false)} className={`fixed h-full w-full top-0 left-0  transition-all duration-300 ${showCart ? "bg-opacity-50 bg-black" : "bg-transparent z-m1"

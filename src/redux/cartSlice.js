@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { saveState } from "../utils/localstorage";
 
 export const cartSlice = createSlice({
     name: 'cart',
     initialState: [
-        {dishId: 1, number: 1}
+        
     ],
     reducers: {
         dishAdded: (state, action) => {

@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { userLogIn } from "../../redux/userSlice";
@@ -11,15 +10,8 @@ function Login(props) {
     const [submitted, setSubmitted] = useState(false);
 
     const history = useHistory();
-    const location = useLocation();
-
-    const loginStatus = useSelector(state => state.user.loginStatus)
 
     const dispatch = useDispatch();    
-    
-    let { from } = location.state || { from: { pathname: "/" } };
-
-    // console.log("from", from);
 
     const [errMessages, setErrMessages] = useState({})
 

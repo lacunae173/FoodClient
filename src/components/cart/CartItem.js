@@ -5,7 +5,6 @@ function CartItem(props) {
     const dispatch = useDispatch()
 
     const onAddButtonClicked = (event) => {
-        console.log("add" + props.dish.name);
         dispatch(
             dishAdded(props.dish.id)
         )

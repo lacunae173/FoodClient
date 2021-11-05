@@ -16,11 +16,11 @@ function MyPage(props) {
     useEffect(async () => {
         if (token && auth) {
             if (orderStatus === 'idle') {
-                dispatch(fetchOrders(token))
+                await dispatch(fetchOrders(token))
             }
             if (orderStatus === 'failed') {
                 await dispatch(userRefresh(token))
-                dispatch(fetchOrders(token))
+                await dispatch(fetchOrders(token))
             }
         }
     }, [orderStatus, dispatch])
